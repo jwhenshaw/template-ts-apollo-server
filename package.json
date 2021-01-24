@@ -19,6 +19,7 @@
     "dev": "yarn build && concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"yarn watch:ts\" \"yarn watch:node\"",
     "genTypes": "graphql-codegen --config codegen.yml",
     "lint": "eslint .",
+    "setup": "yarn && node setup.helper.js",
     "start": "node -r ./tsconfig-paths-bootstrap.js dist/start.js",
     "start:local": "NODE_ENV=development CONFIG_ENV=local yarn start",
     "test": "yarn test:unit && yarn test:integration",
