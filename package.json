@@ -5,12 +5,12 @@
   "description": "Service responsible for todo lists (template service)",
   "author": "James Henshaw",
   "license": "MIT",
-  "main": "lib/start.js",
+  "main": "dist/start.js",
   "directories": {
-    "lib": "lib"
+    "dist": "dist"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "scripts": {
     "apollo:push": "apollo service:push --serviceURL=http://api-todo --serviceName=api-todo --endpoint http://api-todo:4046",
