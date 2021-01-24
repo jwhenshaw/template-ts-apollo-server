@@ -1,0 +1,11 @@
+{
+  "verbose": true,
+  "ignore": [
+    "*.test.ts",
+    "fixtures/*",
+    "lib/*",
+    "dist/*",
+    "node_modules/*"
+  ],
+  "ext": "ts, graphql"
+}

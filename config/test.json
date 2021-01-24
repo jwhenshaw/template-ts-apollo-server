@@ -1,0 +1,8 @@
+{
+  "service": {
+    "port": 5099
+  },
+  "db": {
+    "example": "example-test"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "db": {
+    "example": "example"
+  },
+  "apollo": {
+    "schema": {
+      "tag": "example-dev"
+    }
+  }
+}
