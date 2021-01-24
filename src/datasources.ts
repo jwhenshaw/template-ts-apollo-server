@@ -4,10 +4,7 @@ import { ResolverContext } from './types/Context';
 import { TodoDatasource } from './todo/TodoDatasource';
 
 function getDataSources({ config }: { config: Config }) {
-  return function dataSources<TContext extends ResolverContext>(): Record<
-    string,
-    DataSource<TContext>
-  > {
+  return function dataSources<TContext extends ResolverContext>() {
     return {
       todo: new TodoDatasource<TContext>({ config }),
     };

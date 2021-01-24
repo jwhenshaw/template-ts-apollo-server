@@ -1,41 +1,31 @@
 import { gql } from 'apollo-server';
+import { MutationRemoveTodoArgs } from '../types/generated/graphql';
 import { ResolverContext } from '../types/Context';
 
 export default {
   typeDefs: gql`
+    input removeTodoInput {
+      id: ID
+    }
+
     extend type Mutation {
-      removeTodo(id: ID!)
+      removeTodo(input: removeTodoInput!): Boolean
     }
   `,
   resolvers: {
     Mutation: {
-      // async removeClinic(
-      //   _: any,
-      //   args: MutationUpdateClinicArgs,
-      //   resolverContext: ResolverContext,
-      // ): Promise<Clinic> {
-      //   const { user } = resolverContext;
-      //   const clinicId = args.uuid;
+      async removeClinic(
+        _: any,
+        args: MutationRemoveTodoArgs,
+        resolverContext: ResolverContext,
+      ): Promise<Boolean> {
+        const { input } = args;
+        const result = await resolverContext.dataSources.todo.model.remove({
+          _id: input.id,
+        });
 
-      //   const organisation = user.role.name === 'elephant' ? undefined : user.organisation;
-
-      //   graphqlAuthorise(policies, {
-      //     ...policyDetails,
-      //     principle: user,
-      //     requestArgs: { organisation, clinic: clinicId },
-      //   });
-
-      //   const clinic = await resolverContext.dataSources.clinics.model.findOne(
-      //     pickBy(identity, { uuid: clinicId, organisation }),
-      //   );
-
-      //   if (!clinic) {
-      //     throw new NotFoundError('Clinic');
-      //   }
-
-      //   await clinic.update({ 'meta.active': false });
-      //   return clinic;
-      // },
+        return result.ok === 1;
+      },
     },
   },
 };

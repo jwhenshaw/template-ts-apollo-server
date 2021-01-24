@@ -1,5 +1,6 @@
 import { gql } from 'apollo-server';
 import { ResolverContext } from '../types/Context';
+import { MutationCreateTodoArgs, Todo } from '../types/generated/graphql';
 
 export default {
   typeDefs: gql`
@@ -10,33 +11,24 @@ export default {
     }
 
     extend type Mutation {
-      createTodo(todo: CreatTodoInput!): Todo!
+      createTodo(todo: CreateTodoInput!): Todo!
     }
   `,
   resolvers: {
     Mutation: {
-      //   async createClinic(
-      //     _: any,
-      //     args: MutationCreateClinicArgs,
-      //     resolverContext: ResolverContext,
-      //   ): Promise<Clinic> {
-      //     const { clinic } = args;
-      //     const { user } = resolverContext;
-      //     const organisation = clinic.organisation || user.organisation;
-      //     graphqlAuthorise(policies, {
-      //       ...policyDetails,
-      //       principle: user,
-      //       requestArgs: { organisation },
-      //     });
-      //     const clinicToCreate: Clinic = {
-      //       organisation,
-      //       ...pickBy(identity, {
-      //         name: clinic.name,
-      //         addresses: clinic.addresses,
-      //       }),
-      //     };
-      //     return resolverContext.dataSources.clinics.model.create(clinicToCreate);
-      //   },
+      async createTodo(
+        _: any,
+        args: MutationCreateTodoArgs,
+        resolverContext: ResolverContext,
+      ): Promise<Todo> {
+        const { todo } = args;
+
+        const result = await resolverContext.dataSources.todo.model.create(
+          todo,
+        );
+
+        return result.toObject();
+      },
     },
   },
 };

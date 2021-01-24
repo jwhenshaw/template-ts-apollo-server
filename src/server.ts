@@ -4,8 +4,16 @@ import { dataSources } from './datasources';
 import { Config } from './config';
 import connectToDb from './db';
 import baseTypes from './scalars/base';
+import todoTypes from './todo/todo.typedefs';
+import createTodo from './todo/createTodo';
+import removeTodo from './todo/removeTodo';
 
-const federatedSchema = buildFederatedSchema([baseTypes]);
+const federatedSchema = buildFederatedSchema([
+  baseTypes,
+  { typeDefs: todoTypes },
+  createTodo,
+  removeTodo,
+]);
 
 const schema = mergeSchemas({
   schemas: [federatedSchema],

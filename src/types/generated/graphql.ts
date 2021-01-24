@@ -1,6 +1,7 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -19,7 +20,29 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']>;
 };
 
+export type CreateTodoInput = {
+  label: Scalars['String'];
+  done?: Maybe<Scalars['Boolean']>;
+  listId: Scalars['ID'];
+};
 
+
+
+export type Mutation = {
+   __typename?: 'Mutation';
+  createTodo: Todo;
+  removeTodo?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateTodoArgs = {
+  todo: CreateTodoInput;
+};
+
+
+export type MutationRemoveTodoArgs = {
+  input: RemoveTodoInput;
+};
 
 
 export type Query = {
@@ -27,6 +50,18 @@ export type Query = {
   _service: _Service;
 };
 
+export type RemoveTodoInput = {
+  id?: Maybe<Scalars['ID']>;
+};
+
+
+export type Todo = {
+   __typename?: 'Todo';
+  _id: Scalars['ID'];
+  label: Scalars['String'];
+  done?: Maybe<Scalars['Boolean']>;
+  listId: Scalars['ID'];
+};
 
 
 
@@ -104,7 +139,12 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>,
   _Service: ResolverTypeWrapper<_Service>,
   String: ResolverTypeWrapper<Scalars['String']>,
+  Mutation: ResolverTypeWrapper<{}>,
+  CreateTodoInput: CreateTodoInput,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
+  ID: ResolverTypeWrapper<Scalars['ID']>,
+  Todo: ResolverTypeWrapper<Todo>,
+  removeTodoInput: RemoveTodoInput,
   Date: ResolverTypeWrapper<Scalars['Date']>,
   Time: ResolverTypeWrapper<Scalars['Time']>,
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>,
@@ -116,7 +156,12 @@ export type ResolversParentTypes = {
   Query: {},
   _Service: _Service,
   String: Scalars['String'],
+  Mutation: {},
+  CreateTodoInput: CreateTodoInput,
   Boolean: Scalars['Boolean'],
+  ID: Scalars['ID'],
+  Todo: Todo,
+  removeTodoInput: RemoveTodoInput,
   Date: Scalars['Date'],
   Time: Scalars['Time'],
   DateTime: Scalars['DateTime'],
@@ -136,6 +181,11 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime'
 }
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'todo'>>,
+  removeTodo?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveTodoArgs, 'input'>>,
+};
+
 export interface PastDateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['PastDate'], any> {
   name: 'PastDate'
 }
@@ -148,13 +198,23 @@ export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'Time'
 }
 
+export type TodoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  done?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
+  listId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
 export type Resolvers<ContextType = any> = {
   _Service?: _ServiceResolvers<ContextType>,
   Date?: GraphQLScalarType,
   DateTime?: GraphQLScalarType,
+  Mutation?: MutationResolvers<ContextType>,
   PastDate?: GraphQLScalarType,
   Query?: QueryResolvers<ContextType>,
   Time?: GraphQLScalarType,
+  Todo?: TodoResolvers<ContextType>,
 };
 
 
